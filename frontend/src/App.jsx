@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 
 export const userContext = createContext();
 
@@ -15,6 +16,7 @@ function App() {
     <userContext.Provider value={{ user, setUser }}>
       <BrowserRouter>
         <Routes>
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>

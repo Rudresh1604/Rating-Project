@@ -1,12 +1,12 @@
 import React from "react";
 import AuthForm from "../components/SignIn";
 
-const Login = () => {
+const Register = () => {
   return (
     <div className="flex items-center justify-center w-full h-screen ">
-      <AuthForm isLoginForm={true} />
+      <AuthForm isLoginForm={false} />
     </div>
   );
 };
 
-export default Login;
+export default Register;
