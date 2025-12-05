@@ -30,6 +30,8 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password, role } = req.body;
+    console.log(req.body);
+
     if (!email || !password || !role) {
       return res
         .status(400)
@@ -39,20 +41,26 @@ const loginUser = async (req, res) => {
       "select * from users where email=? and role=?",
       [email, role]
     );
+    console.log(user);
+
     if (user.length == 0) {
       return res
         .status(200)
         .json({ success: false, message: "User not found !" });
     }
-    const passCheck = await bcrypt.compare(password, user?.password);
+    const passCheck = await bcrypt.compare(password, user[0]?.password);
     if (passCheck == false) {
       return res
         .status(200)
         .json({ success: false, message: "Invalid login credentials !" });
     }
-    const token = jwt.sign({ userId: user.id, role: user.role }, jwtSecret, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { userId: user[0].id, role: user[0].role },
+      jwtSecret,
+      {
+        expiresIn: "1d",
+      }
+    );
     return res
       .status(200)
       .json({ success: true, message: "Login successfully !", token: token });

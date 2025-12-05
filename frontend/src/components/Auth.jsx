@@ -21,10 +21,14 @@ const AuthForm = ({ isLoginForm = true }) => {
     setLoading(true);
 
     try {
-      if (formData.name.length < 10 || formData.name?.length > 40) {
+      if (
+        !isLoginForm &&
+        (formData.name.length < 8 || formData.name?.length > 40)
+      ) {
         toast("Name must be between 10 to 40 characters");
         return;
       }
+      console.log("true ");
 
       const res = await axios.post(
         `${backendUrl}/api/users/${isLoginForm ? "login" : "register"}`,
