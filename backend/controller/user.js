@@ -74,8 +74,9 @@ const loginUser = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     const userRole = req.user.role;
+    console.log("user id ", req.user);
 
     // Get user basic info
     const [userData] = await pool.query(

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { KeyRound, Mail, User, Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const AuthForm = ({ isLoginForm = true }) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -28,7 +29,6 @@ const AuthForm = ({ isLoginForm = true }) => {
         toast("Name must be between 10 to 40 characters");
         return;
       }
-      console.log("true ");
 
       const res = await axios.post(
         `${backendUrl}/api/users/${isLoginForm ? "login" : "register"}`,
@@ -38,6 +38,13 @@ const AuthForm = ({ isLoginForm = true }) => {
 
       if (res.data?.token) {
         localStorage.setItem("token", res.data.token);
+      }
+      if (res.data?.success) {
+        if (isLoginForm) {
+          navigate("/profile");
+        } else {
+          navigate("/login");
+        }
       }
     } catch (error) {
       toast.error(
